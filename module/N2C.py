@@ -52,7 +52,7 @@ math: {str(math).lower()}
 ---
 """
     with open(filename+".md","r") as f:
-        data=ImgSrc(f.read(),out_path+"/assets/img/"+out_filename)
+        data=ImgSrc(f.read(),"/assets/img/"+out_filename)
     #remove md title
     data=front+'\n'.join(data.split('\n')[1:])
     if image:

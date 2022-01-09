@@ -13,8 +13,6 @@ def substr(data):
                     substr = data[0][i:i+j]
     return substr
 def ImgSrc(data,src,dest):
-    print(src)
-    print(dest)
     return re.sub(re.escape(src),dest,data)
 
 def n2c(nzip,out,c,tags,date,name,link,toc,math,comments,mermaid,title):
@@ -50,11 +48,24 @@ mermaid: {str(mermaid).lower()}
 math: {str(math).lower()}
 ---
 """
+    #remove duplicate md file
+    filelist=os.listdir(out_path+"/_posts/")
+    for f in filelist:
+        if f.endswith(filename[:-33].replace(" ","-").lower()+".md"):
+            os.remove(out_path+"/_posts/"+f)
+
     with open(filename+".md","r") as f:
         data=ImgSrc(f.read(),filename.replace(" ","%20"),"/assets/img/"+out_filename)
+
+    folderlist=os.listdir(out_path+"/assets/img/")
+    print(folderlist)
+    for f in folderlist:
+        if f.endswith(filename[:-33].replace(" ","-").lower()):
+            shutil.rmtree(out_path+"/assets/img/"+f)
+    folderlist=os.listdir(out_path+"/assets/img/")
+    print(folderlist)
     #remove md title
     data=front+'\n'.join(data.split('\n')[1:])
-    print(data)
     if image:
         if os.path.exists(out_path+"/assets/img/"+out_filename):
             shutil.rmtree(out_path+"/assets/img/"+out_filename)

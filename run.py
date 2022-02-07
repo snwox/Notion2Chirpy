@@ -3,8 +3,8 @@ import argparse
 
 def main():
     parser = argparse.ArgumentParser(description='Notion2Chirpy')
-    parser.add_argument('--tags', type=str,default='',nargs='+',
-            metavar='tags',
+    parser.add_argument('--tag', type=str,default='',
+            metavar='tag',
             help='from zero to infinite')
     parser.add_argument('zip', type=str, 
             metavar='notion-zip-file',
@@ -33,7 +33,7 @@ def main():
             help='default False')
 
     args=parser.parse_args()
-    N2C.n2c(args.zip,args.out,args.c,args.tags,args.date,args.name,args.link,args.toc,
+    N2C.n2c(args.zip,args.out,args.c,args.tag,args.date,args.name,args.link,args.toc,
             args.math,args.comments,args.mermaid,args.title)
 if __name__=="__main__":
 	main()

@@ -31,7 +31,7 @@ def n2c(nzip,out,c,tags,date,name,link,toc,math,comments,mermaid,title):
     out_filename=time.strftime('%Y-%m-%d-')+filename[:-33].replace(" ","-").lower()
     title=title or filename[:-33]
     categories=c.__repr__().replace("'","").replace('"','')
-    tags=tags.__repr__().replace("'","").replace('"','')
+    tags=f"[{tags}]"
     date=date or time.strftime('%Y-%m-%d %H:%M:%S +0900', time.localtime(time.time()))
     
     front=f"""---

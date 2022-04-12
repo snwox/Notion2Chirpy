@@ -28,8 +28,8 @@ def n2c(nzip,out,c,tags,date,name,link,toc,math,comments,mermaid,title):
 
     zip_path = os.path.realpath(nzip)
     out_path = os.path.realpath(out) 
-    out_filename=time.strftime('%Y-%m-%d-')+filename[:-33].replace(" ","-").lower()
-    title=title or filename[:-33]
+    out_filename=time.strftime('%Y-%m-%d-')+filename.replace(" ","-").lower()
+    
     categories=c.__repr__().replace("'","").replace('"','')
     tags=f"[{tags}]"
     date=date or time.strftime('%Y-%m-%d %H:%M:%S +0900', time.localtime(time.time()))
@@ -48,30 +48,43 @@ mermaid: {str(mermaid).lower()}
 math: {str(math).lower()}
 ---
 """
-    #remove duplicate md file
+    #remove duplicated md
     filelist=os.listdir(out_path+"/_posts/")
     for f in filelist:
-        if f.endswith(filename[:-33].replace(" ","-").lower()+".md"):
+        if f.endswith(filename.replace(" ","-").lower()+".md"):
             os.remove(out_path+"/_posts/"+f)
 
+    #replace img src
     with open(filename+".md","r") as f:
         data=ImgSrc(f.read(),filename.replace(" ","%20"),"/assets/img/"+out_filename)
 
-    folderlist=os.listdir(out_path+"/assets/img/")
-    print(folderlist)
-    for f in folderlist:
-        if f.endswith(filename[:-33].replace(" ","-").lower()):
-            shutil.rmtree(out_path+"/assets/img/"+f)
-    folderlist=os.listdir(out_path+"/assets/img/")
-    print(folderlist)
-    #remove md title
+    #remove duplicated img folder
+    # folderlist=os.listdir(out_path+"/assets/img/")
+    # print(f"Image folder PREV ",end='')
+    # print(folderlist)
+    # for f in folderlist:
+    #     if f.endswith(filename.replace(" ","-").lower()):
+    #         shutil.rmtree(out_path+"/assets/img/"+f)
+
+    #add md front data
     data=front+'\n'.join(data.split('\n')[1:])
+
+    #remove duplicated img folder and move
     if image:
         if os.path.exists(out_path+"/assets/img/"+out_filename):
             shutil.rmtree(out_path+"/assets/img/"+out_filename)
         os.rename(filename,out_path+"/assets/img/"+out_filename)
+    #write md file
     with open(out_path+"/_posts/"+out_filename+".md","w") as f:
         f.write(data)
+    folderlist=os.listdir(out_path+"/assets/img/")
+    print(f"Image folder ",end='')
+    print(folderlist)
+    
+    folderlist=os.listdir(out_path+"/_posts")
+    print(f"Posts folder ",end='')
+    print(folderlist)
+
     print(f"[+] success upload")
     if image:
         print(f"[+] image to {out_path+'/assets/img/'+out_filename}")

@@ -23,7 +23,7 @@ def main():
             help='default your name in _config.yml')
     parser.add_argument('--link', type=str,default='',
             help='default your twitter in _config.yml')
-    parser.add_argument('--toc', type=bool,default='',
+    parser.add_argument('--toc', type=bool,default='true',
             help='default True')
     parser.add_argument('--math', type=bool,default='',
             help='default False')

@@ -53,7 +53,10 @@ math: {str(math).lower()}
     for f in filelist:
         if f.endswith(filename.replace(" ","-").lower()+".md"):
             os.remove(out_path+"/_posts/"+f)
-
+    imglist=os.listdir(out_path+"/assets/img/")
+    for f in imglist:
+        if f.endswith(filename.replace(" ","-").lower()):
+            shutil.rmtree(out_path+"/assets/img/"+f)
     #replace img src
     with open(filename+".md","r") as f:
         data=ImgSrc(f.read(),filename.replace(" ","%20"),"/assets/img/"+out_filename)

@@ -1,0 +1,1 @@
+python3 run.py ./out.zip ../snwox.github.io CTF TEST --tag testtesg --title "(CTF) Codegate writeup

@@ -28,7 +28,8 @@ def n2c(nzip,out,c,tags,date,name,link,toc,math,comments,mermaid,title):
 
     zip_path = os.path.realpath(nzip)
     out_path = os.path.realpath(out) 
-    out_filename=time.strftime('%Y-%m-%d-')+filename.replace(" ","-").lower()
+    replaced_filename = '-'.join(filename.replace(" ","-").lower().split('-')[:-1])
+    out_filename=time.strftime('%Y-%m-%d-')+replaced_filename
     
     categories=c.__repr__().replace("'","").replace('"','')
     tags=f"[{tags}]"
@@ -51,11 +52,11 @@ math: {str(math).lower()}
     #remove duplicated md
     filelist=os.listdir(out_path+"/_posts/")
     for f in filelist:
-        if f.endswith(filename.replace(" ","-").lower()+".md"):
+        if f.endswith(replaced_filename+".md"):
             os.remove(out_path+"/_posts/"+f)
     imglist=os.listdir(out_path+"/assets/img/")
     for f in imglist:
-        if f.endswith(filename.replace(" ","-").lower()):
+        if f.endswith(replaced_filename):
             shutil.rmtree(out_path+"/assets/img/"+f)
     #replace img src
     with open(filename+".md","r") as f:
@@ -66,7 +67,7 @@ math: {str(math).lower()}
     # print(f"Image folder PREV ",end='')
     # print(folderlist)
     # for f in folderlist:
-    #     if f.endswith(filename.replace(" ","-").lower()):
+    #     if f.endswith(replaced_filename):
     #         shutil.rmtree(out_path+"/assets/img/"+f)
 
     #add md front data
